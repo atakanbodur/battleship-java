@@ -14,12 +14,10 @@ import edu.ozyegin.loginPage.LoginPage;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
-        LoginPage loginpage = new edu.ozyegin.loginPage.LoginPage();
-        HostPage hostpage = new edu.ozyegin.hostPage.HostPage();
-        HostGamePage hostgamepage = new edu.ozyegin.hostPage.hostGamePage.HostGamePage();
-        JoinGamePage joinGamePage = new edu.ozyegin.hostPage.joinGamePage.JoinGamePage();
+    static String opponent;
+    static String username;
 
+    public static void main(String[] args) throws IOException {
         Game game;
         String ip;
         int port;
@@ -27,7 +25,7 @@ public class Main {
         Socket socket;
         String sentence;
         BufferedReader reader;
-        String opponent;
+
 
 
         reader = new BufferedReader(new InputStreamReader(System.in));
@@ -35,7 +33,7 @@ public class Main {
 
         System.out.println("----------------------------------");
         System.out.println("Would you please enter your name? Please...");
-        String username = loginpage.returnUsername();
+        username = reader.readLine();
 
         System.out.println("What would you like to do?");
         System.out.println("Write; '1' for to host a game. '2' for to join a game");
@@ -44,7 +42,7 @@ public class Main {
 
 
         switch (sentence) {
-            case "1": //host
+            case "1" -> { //host
                 serverSocket = setupServer(reader);
                 socket = serverSocket.accept();
                 if (socket.isConnected()) {
@@ -79,12 +77,12 @@ public class Main {
                     if (inFromOpponent.readLine().equals("done")) {
                         System.out.println("Game can BEGIN!!!");
                         boolean key = true;
-                        int hits=0;
+                        int hits = 0;
                         playGame(game, reader, inFromOpponent, outToOpponent, key, hits);
                     }
                 }
-                break;
-            case "2": //join a game
+            }
+            case "2" -> { //join a game
                 System.out.println("OK. Who will we connect to? I'm sure we'll win the game.");
                 ip = reader.readLine();
                 System.out.println("OK. Which port they're on?");
@@ -103,11 +101,13 @@ public class Main {
                     game.setPlayer2(opponent);
                     System.out.println("Your opponent is " + opponent + "\n");
 
-                    setupShips(game,reader);
+                    while (!game.getMyBoard().isAllBoatsAreCreated()) {
+                        setupShips(game, reader);
+                        if (game.getMyBoard().getRegisteredShips().contains(105) && game.getMyBoard().getRegisteredShips().contains(104)
+                                && game.getMyBoard().getRegisteredShips().contains(103) && game.getMyBoard().getRegisteredShips().contains(102)) {
+                            game.getMyBoard().setAllBoatsAreCreated(true);
+                        }
 
-                    if (game.getMyBoard().getRegisteredShips().contains(105) && game.getMyBoard().getRegisteredShips().contains(104)
-                            && game.getMyBoard().getRegisteredShips().contains(103) && game.getMyBoard().getRegisteredShips().contains(102)) {
-                        game.getMyBoard().setAllBoatsAreCreated(true);
                     }
 
                     outToOpponent.writeBytes("done\n");
@@ -120,10 +120,11 @@ public class Main {
                     boolean key = false;
                     if (inFromOpponent.readLine().equals("done")) {
                         System.out.println("Game can BEGIN!!!");
-                        int hits=0;
+                        int hits = 0;
                         playGame(game, reader, inFromOpponent, outToOpponent, key, hits);
                     }
                 }
+            }
         }
     }
 
@@ -131,7 +132,7 @@ public class Main {
         String sentence;
         while (!game.getMyBoard().isPlayerLostGame()) {
             while (key) {
-                if (hits == 19) {
+                if (hits == 14) {
                     System.out.println("You won the game!");
                     game.getMyBoard().setPlayerLostGame(true);
                     sentence = "lost";
@@ -145,7 +146,14 @@ public class Main {
                     outToOpponent.writeBytes(sentence + "\n");
                     outToOpponent.flush();
                 }
-                System.out.println("It's your turn to make a move. Please enter the coordinate of the place you'd like to hit.\n");
+                System.out.println("\n\n");
+                System.out.println(opponent+" board:");
+                game.printBoard(game.getOpponentBoard());
+                System.out.println("\n\n");
+                System.out.println(username+" board:");
+                game.printBoard(game.getMyBoard());
+
+                System.out.println("It's your turn to make a move. Please enter the coordinate of the place you'd like to hit. Coordinates must be entered as B;2, C;9 etc. Split axis with ';'\n");
                 sentence = game.hit(reader.readLine());
                 if (!sentence.equals("false")) {
                     outToOpponent.writeBytes(sentence + "\n");

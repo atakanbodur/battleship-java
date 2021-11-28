@@ -26,6 +26,7 @@ public class Game {
         int[] coordinates =  gameController.convertInputToArr(coordinate);
         int xCoordinate=coordinates[0]-1;
         int yCoordinate=coordinates[1]-1;
+        myBoard.getBoard()[yCoordinate][xCoordinate]=1;
         if (myBoard.getBoard()[yCoordinate][xCoordinate]!=0){
             myBoard.getBoard()[yCoordinate][xCoordinate]=1;
             return "true";
@@ -43,6 +44,7 @@ public class Game {
         int xCoordinate=coordinates[0]-1;
         int yCoordinate=coordinates[1]-1;
         if (opponentBoard.getBoard()[yCoordinate][xCoordinate]!=1){
+            opponentBoard.getBoard()[yCoordinate][xCoordinate]=1;
             return coordinate;
         }
         else {
@@ -63,5 +65,18 @@ public class Game {
     }
     public GameController getGameController() {
         return gameController;
+    }
+    public void printBoard(Board b){
+        int[][] board = b.getBoard();
+        for (int[] ints : board) {
+            for (int j = 0; j < board.length; j++) {
+                if (ints[j] == 0) {
+                    System.out.print("- ");
+                } else if (ints[j] == 1) {
+                    System.out.print("X ");
+                } else System.out.print(gameController.shipNumberToString(ints[j]) + " ");
+            }
+            System.out.println();
+        }
     }
 }
