@@ -1,18 +1,25 @@
 package edu.ozyegin;
 
-import javax.xml.stream.FactoryConfigurationError;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.security.PublicKey;
-import java.util.Locale;
+import edu.ozyegin.hostPage.HostPage;
+import edu.ozyegin.hostPage.hostGamePage.HostGamePage;
+import edu.ozyegin.hostPage.joinGamePage.JoinGamePage;
+import edu.ozyegin.loginPage.LoginPage;
+
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
+        LoginPage loginpage = new edu.ozyegin.loginPage.LoginPage();
+        HostPage hostpage = new edu.ozyegin.hostPage.HostPage();
+        HostGamePage hostgamepage = new edu.ozyegin.hostPage.hostGamePage.HostGamePage();
+        JoinGamePage joinGamePage = new edu.ozyegin.hostPage.joinGamePage.JoinGamePage();
+
         Game game;
         String ip;
         int port;
@@ -28,7 +35,7 @@ public class Main {
 
         System.out.println("----------------------------------");
         System.out.println("Would you please enter your name? Please...");
-        String username = reader.readLine();
+        String username = loginpage.returnUsername();
 
         System.out.println("What would you like to do?");
         System.out.println("Write; '1' for to host a game. '2' for to join a game");
