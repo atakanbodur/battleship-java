@@ -1,0 +1,5 @@
+What does the numbers inside board[][] mean?
+--------------------------------------------
+0-No ship in it, and didn't get hit.
+1-Got hit; no indication whether it hit a ship or not.
+102/103/104/105-Ships got placed in those sections, (10X: 'X' is derived from ships' lengths).
