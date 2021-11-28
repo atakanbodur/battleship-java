@@ -1,4 +1,4 @@
-package edu.ozyegin.joinGamePage;
+package edu.ozyegin.hostPage.joinGamePage;
 
 import javax.swing.*;
 import java.awt.*;

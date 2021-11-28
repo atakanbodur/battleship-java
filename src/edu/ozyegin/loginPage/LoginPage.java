@@ -1,5 +1,5 @@
 package edu.ozyegin.loginPage;
-
+import edu.ozyegin.hostPage.HostPage;
 import javax.swing.*;
 import java.awt.*;
 
@@ -20,6 +20,14 @@ public class LoginPage extends JFrame{
         frame.pack();
         frame.setVisible(true);
 
+        nextButton.addActionListener(e -> {
+            new HostPage();
+            frame.dispose();
+        });
+    }
+
+    public String returnUsername(){
+        return username.toString();
     }
 
 }

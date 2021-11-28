@@ -1,8 +1,8 @@
 package edu.ozyegin;
 
-import edu.ozyegin.hostGamePage.HostGamePage;
 import edu.ozyegin.hostPage.HostPage;
-import edu.ozyegin.joinGamePage.JoinGamePage;
+import edu.ozyegin.hostPage.hostGamePage.HostGamePage;
+import edu.ozyegin.hostPage.joinGamePage.JoinGamePage;
 import edu.ozyegin.loginPage.LoginPage;
 
 import java.io.BufferedReader;
@@ -16,10 +16,10 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        new LoginPage();
-        new HostPage();
-        new HostGamePage();
-        new JoinGamePage();
+       LoginPage loginpage = new LoginPage();
+       HostPage hostpage = new HostPage();
+       HostGamePage hostgamepage = new HostGamePage();
+       JoinGamePage joinGamePage = new JoinGamePage();
 
         Game game;
         String ip ;
@@ -40,7 +40,7 @@ public class Main {
 
         System.out.println("----------------------------------");
         System.out.println("Would you please enter your name? Please...");
-        String username = reader.readLine();
+        String username = loginpage.returnUsername();
 
         System.out.println("What would you like to do?");
         System.out.println("Write; '1' for to host a game. '2' for to join a game");
