@@ -43,6 +43,9 @@ public class Game {
     }
 
 
+    public String getPlayer1() {
+        return player1;
+    }
     public Board getMyBoard() {
         return myBoard;
     }

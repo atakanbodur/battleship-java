@@ -22,6 +22,7 @@ public class Main {
         DataOutputStream outputStream;
         InputStreamReader inputStreamReader;
         String opponent;
+        String activePlayer;
 
 
         reader = new BufferedReader(new InputStreamReader(System.in));
@@ -160,6 +161,26 @@ public class Main {
                     System.out.println("We are waiting for your opponent to setup her board.\n");
                     if (inFromOpponent.readLine().equals("done")){
                         System.out.println("Game can BEGIN!!!");
+                        while (!game.getMyBoard().isPlayerLostGame()){
+                            activePlayer=game.getPlayer1();
+                            if (activePlayer.equals(game.getPlayer1())){
+                                System.out.println("It's your turn to make a move. Please enter the coordinate of the place you'd like to hit.\n");
+                                sentence = game.hit(reader.readLine());
+                                if (!sentence.equals("false")){
+                                    outToOpponent.writeBytes(sentence+"\n");
+                                    outToOpponent.flush();
+                                    System.out.println("Waiting for opponent to tell us if the shot was successful or not.\n");
+                                    sentence = inFromOpponent.readLine();
+                                    if (sentence.equals("true")){
+                                        System.out.println("Shot successful!");
+                                    }
+                                    else System.out.println("You couldn't hit it. Sorry mate.");
+                                }
+                                else {
+                                    System.out.println("You are trying to hit the same coordinates. Try again.");
+                                }
+                            }
+                        }
                     }
                 }
                 break;
@@ -285,6 +306,17 @@ public class Main {
                     System.out.println("We are waiting for your opponent to setup her board.\n");
                     if (inFromOpponent.readLine().equals("done")){
                         System.out.println("Game can BEGIN!!!");
+
+                        System.out.println("Opponent is taking the shot...\n");
+                        sentence = inFromOpponent.readLine();
+                        if (game.receiveHit(sentence).equals("true")){
+                            outToOpponent.writeBytes("true\n");
+                            outToOpponent.flush();
+                        }
+                        else {
+                            outToOpponent.writeBytes("false\n");
+                            outToOpponent.flush();
+                        }
 
                     }
                 }

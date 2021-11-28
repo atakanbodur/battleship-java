@@ -104,4 +104,9 @@ public class Board {
         }
         return board;
     }
+
+    public void setPlayerLostGame(boolean playerLostGame) {
+        this.playerLostGame = playerLostGame;
+    }
+
 }
