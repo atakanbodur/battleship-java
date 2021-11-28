@@ -71,13 +71,13 @@ public class Main {
                                         break;
                                     }
                                     else {
+                                        Ship carrier = new Ship("C",5,105);
                                         System.out.println("You have selected carrier. Please enter the coordinates that you want your ship to be placed.\n");
                                         String input=reader.readLine().toUpperCase();
                                         System.out.println("Is your ship will be placed on horizontally? Answer with true or false");
                                         boolean isOnYaxis = Boolean.parseBoolean(reader.readLine());
                                         try {
-                                            game.getMyBoard().getMyShips().get(0).shipController.placeShip(game.getMyBoard().getBoard(), game.getMyBoard().getMyShips().get(0),
-                                                    game.getGameController().convertInputToArr(input),isOnYaxis);
+                                            game.getMyBoard().placeShip(game.getMyBoard().getBoard(), carrier,game.getGameController().convertInputToArr(input), isOnYaxis);
                                             game.getMyBoard().getRegisteredShips().add(105);
                                         }
                                         catch (Exception e){
@@ -91,15 +91,14 @@ public class Main {
                                         break;
                                     }
                                     else {
+                                        Ship battleship = new Ship("B",4,104);
                                         System.out.println("You have selected battleship. Please enter the coordinates that you want your ship to be placed.\n");
                                         String input=reader.readLine();
                                         System.out.println("Is your ship will be placed on horizontally? Answer with true or false");
                                         boolean isOnYaxis = Boolean.parseBoolean(reader.readLine());
                                         try {
-                                            game.getMyBoard().getMyShips().get(1).shipController.placeShip(game.getMyBoard().getBoard(), game.getMyBoard().getMyShips().get(1),
-                                                    game.getGameController().convertInputToArr(input),isOnYaxis);
+                                            game.getMyBoard().placeShip(game.getMyBoard().getBoard(), battleship,game.getGameController().convertInputToArr(input), isOnYaxis);
                                             game.getMyBoard().getRegisteredShips().add(104);
-                                            game.getMyBoard().printBoard(game.getMyBoard().getBoard());
                                         }
                                         catch (Exception e){
                                             System.out.println("Something went wrong");
@@ -112,15 +111,14 @@ public class Main {
                                         break;
                                     }
                                     else {
+                                        Ship submarine = new Ship("S",3,103);
                                         System.out.println("You have selected submarine. Please enter the coordinates that you want your ship to be placed.\n");
                                         String input=reader.readLine();
                                         System.out.println("Is your ship will be placed on horizontally? Answer with true or false");
                                         boolean isOnYaxis = Boolean.parseBoolean(reader.readLine());
                                         try {
-                                            game.getMyBoard().getMyShips().get(2).shipController.placeShip(game.getMyBoard().getBoard(), game.getMyBoard().getMyShips().get(2),
-                                                    game.getGameController().convertInputToArr(input),isOnYaxis);
+                                            game.getMyBoard().placeShip(game.getMyBoard().getBoard(), submarine,game.getGameController().convertInputToArr(input), isOnYaxis);
                                             game.getMyBoard().getRegisteredShips().add(103);
-                                            game.getMyBoard().printBoard(game.getMyBoard().getBoard());
                                         }
                                         catch (Exception e){
                                             System.out.println("Something went wrong");
@@ -133,15 +131,14 @@ public class Main {
                                         break;
                                     }
                                     else {
+                                        Ship destroyer = new Ship("D",2, 102);
                                         System.out.println("You have selected destroyer. Please enter the coordinates that you want your ship to be placed.\n");
                                         String input=reader.readLine();
                                         System.out.println("Is your ship will be placed on horizontally? Answer with true or false");
                                         boolean isOnYaxis = Boolean.parseBoolean(reader.readLine());
                                         try {
-                                            game.getMyBoard().getMyShips().get(3).shipController.placeShip(game.getMyBoard().getBoard(), game.getMyBoard().getMyShips().get(3),
-                                                    game.getGameController().convertInputToArr(input),isOnYaxis);
+                                            game.getMyBoard().placeShip(game.getMyBoard().getBoard(), destroyer,game.getGameController().convertInputToArr(input), isOnYaxis);
                                             game.getMyBoard().getRegisteredShips().add(102);
-                                            game.getMyBoard().printBoard(game.getMyBoard().getBoard());
                                         }
                                         catch (Exception e){
                                             System.out.println("Something went wrong");
@@ -153,16 +150,17 @@ public class Main {
                             &&game.getMyBoard().getRegisteredShips().contains(103)&&game.getMyBoard().getRegisteredShips().contains(102)){
                                 game.getMyBoard().setAllBoatsAreCreated(true);
                             }
-
                     }
-                    outToOpponent.writeBytes("done");
+                    outToOpponent.writeBytes("done\n");
                     outToOpponent.flush();
 
                     System.out.println("You have created your board. Take a look at it!\n");
                     game.getMyBoard().printBoard(game.getMyBoard().getBoard());
-                    System.out.println("Let's wait for "+opponent+" to finish up.\n");
 
-
+                    System.out.println("We are waiting for your opponent to setup her board.\n");
+                    if (inFromOpponent.readLine().equals("done")){
+                        System.out.println("Game can BEGIN!!!");
+                    }
                 }
                 break;
             case "2": //join a game
@@ -184,23 +182,120 @@ public class Main {
                     game.setPlayer2(opponent);
                     System.out.println("Your opponent is "+opponent+"\n");
 
+                    while (!game.getMyBoard().isAllBoatsAreCreated()){
+                        System.out.println("You have to place your ships to begin.");
+                        System.out.println("Your ships are: a Carrier, a Battleship, a Submarine and a Destroyer. They are denoted by:");
+                        System.out.println("C,B,S and D respectively. Please enter a symbol among these to place that ship on your board.\n");
+                        sentence= reader.readLine();
+                        switch (sentence.toUpperCase()){
+                            case "C":
+                                if (game.getMyBoard().getRegisteredShips().contains(105)){
+                                    System.out.println("Already placed. Sorry :(");
+                                    break;
+                                }
+                                else {
+                                    Ship carrier = new Ship("C",5,105);
+                                    System.out.println("You have selected carrier. Please enter the coordinates that you want your ship to be placed.\n");
+                                    String input=reader.readLine().toUpperCase();
+                                    System.out.println("Is your ship will be placed on horizontally? Answer with true or false");
+                                    boolean isOnYaxis = Boolean.parseBoolean(reader.readLine());
+                                    try {
+                                        game.getMyBoard().placeShip(game.getMyBoard().getBoard(), carrier,game.getGameController().convertInputToArr(input), isOnYaxis);
+                                        game.getMyBoard().getRegisteredShips().add(105);
+                                    }
+                                    catch (Exception e){
+                                        System.out.println("Something went wrong");
+                                    }
+                                }
+                                break;
+                            case "B":
+                                if (game.getMyBoard().getRegisteredShips().contains(104)){
+                                    System.out.println("Already placed. Sorry :(");
+                                    break;
+                                }
+                                else {
+                                    Ship battleship = new Ship("B",4,104);
+                                    System.out.println("You have selected battleship. Please enter the coordinates that you want your ship to be placed.\n");
+                                    String input=reader.readLine();
+                                    System.out.println("Is your ship will be placed on horizontally? Answer with true or false");
+                                    boolean isOnYaxis = Boolean.parseBoolean(reader.readLine());
+                                    try {
+                                        game.getMyBoard().placeShip(game.getMyBoard().getBoard(), battleship,game.getGameController().convertInputToArr(input), isOnYaxis);
+                                        game.getMyBoard().getRegisteredShips().add(104);
+                                    }
+                                    catch (Exception e){
+                                        System.out.println("Something went wrong");
+                                    }
+                                }
+                                break;
+                            case "S":
+                                if (game.getMyBoard().getRegisteredShips().contains(103)){
+                                    System.out.println("Already placed. Sorry :(");
+                                    break;
+                                }
+                                else {
+                                    Ship submarine = new Ship("S",3,103);
+                                    System.out.println("You have selected submarine. Please enter the coordinates that you want your ship to be placed.\n");
+                                    String input=reader.readLine();
+                                    System.out.println("Is your ship will be placed on horizontally? Answer with true or false");
+                                    boolean isOnYaxis = Boolean.parseBoolean(reader.readLine());
+                                    try {
+                                        game.getMyBoard().placeShip(game.getMyBoard().getBoard(), submarine,game.getGameController().convertInputToArr(input), isOnYaxis);
+                                        game.getMyBoard().getRegisteredShips().add(103);
+                                    }
+                                    catch (Exception e){
+                                        System.out.println("Something went wrong");
+                                    }
+                                }
+                                break;
+                            case "D":
+                                if (game.getMyBoard().getRegisteredShips().contains(102)){
+                                    System.out.println("Already placed. Sorry :(");
+                                    break;
+                                }
+                                else {
+                                    Ship destroyer = new Ship("D",2, 102);
+                                    System.out.println("You have selected destroyer. Please enter the coordinates that you want your ship to be placed.\n");
+                                    String input=reader.readLine();
+                                    System.out.println("Is your ship will be placed on horizontally? Answer with true or false");
+                                    boolean isOnYaxis = Boolean.parseBoolean(reader.readLine());
+                                    try {
+                                        game.getMyBoard().placeShip(game.getMyBoard().getBoard(), destroyer,game.getGameController().convertInputToArr(input), isOnYaxis);
+                                        game.getMyBoard().getRegisteredShips().add(102);
+                                    }
+                                    catch (Exception e){
+                                        System.out.println("Something went wrong");
+                                    }
+                                }
+                                break;
+                        }
+                        if (game.getMyBoard().getRegisteredShips().contains(105)&&game.getMyBoard().getRegisteredShips().contains(104)
+                                &&game.getMyBoard().getRegisteredShips().contains(103)&&game.getMyBoard().getRegisteredShips().contains(102)){
+                            game.getMyBoard().setAllBoatsAreCreated(true);
+                            game.getMyBoard().printBoard(game.getMyBoard().getBoard());
+                        }
+                    }
+
+                    outToOpponent.writeBytes("done\n");
+                    outToOpponent.flush();
+
+                    System.out.println("You have created your board. Take a look at it!\n");
+                    game.getMyBoard().printBoard(game.getMyBoard().getBoard());
+
+                    System.out.println("We are waiting for your opponent to setup her board.\n");
+                    if (inFromOpponent.readLine().equals("done")){
+                        System.out.println("Game can BEGIN!!!");
+
+                    }
                 }
                 break;
             default:
                 break;
         }
     }
-
-    public static Ship returnShipInstanceFromSymbol(String symbol){
-        return switch (symbol){
-            case "C" -> (new Ship(symbol, 5, 105));
-            case "B" -> (new Ship(symbol, 4, 104));
-            case "S" -> (new Ship(symbol, 3, 103));
-            case "D" -> (new Ship(symbol, 2, 102));
-            default -> (null);
-        };
-    }
-    //TODO: Something's messy with placeShip method, first call is correct but then it gives an exception. Maybe smth wrong with the board we're sending??
+    //
+    // Something's messy with placeShip method, first call is correct but then it gives an exception. Maybe smth wrong with the board we're sending??(done)
+    //TODO: Out of bond exception is coming when you enter g;8 horizontal for submarine. It shouldn't.
 
 
 }

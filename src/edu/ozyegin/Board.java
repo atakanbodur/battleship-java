@@ -4,30 +4,16 @@ import java.util.ArrayList;
 
 public class Board {
     private int[][] board;
-    private ArrayList<Ship> myShips;
     private ArrayList<Integer> registeredShips;
     private boolean allBoatsAreCreated;
     private boolean playerLostGame;
     private String playerUsername;
-    private Ship carrier;
-    private Ship battleship;
-    private Ship submarine;
-    private Ship destroyer;
 
     Board(String playerUsername){
         this.playerUsername=playerUsername;
         this.allBoatsAreCreated=false;
         this.playerLostGame=false;
         this.board = initBoard(10);
-        this.carrier = new Ship("C",5,105);
-        this.battleship = new Ship("B",4,104);
-        this.submarine = new Ship("S",3,103);
-        this.destroyer = new Ship("D",2,102);
-        this.myShips = new ArrayList<>();
-        this.myShips.add(carrier);
-        this.myShips.add(battleship);
-        this.myShips.add(submarine);
-        this.myShips.add(destroyer);
         this.registeredShips = new ArrayList<>();
     }
 
@@ -60,13 +46,62 @@ public class Board {
     public String getPlayerUsername() {
         return playerUsername;
     }
-    public ArrayList<Ship> getMyShips() {
-        return myShips;
-    }
     public ArrayList<Integer> getRegisteredShips() {
         return registeredShips;
     }
     public void setAllBoatsAreCreated(boolean allBoatsAreCreated) {
         this.allBoatsAreCreated = allBoatsAreCreated;
+    }
+    public boolean placeShip(int[][] board, Ship ship, int[] startCoordinates, boolean isOnYaxis){
+        int yCoordinate = startCoordinates[0];
+        int xCoordinate = startCoordinates[1];
+        //as they'll enter coordinates as B1 for example, computer must understand user is trying to say 2nd row first row,
+        //so we must -1 them so that it becomes compatible with array language-->[1][0]
+        yCoordinate--;
+        xCoordinate--;
+        boolean key=true;
+        try {
+            if (checkIfSuitable(board,yCoordinate,xCoordinate,ship.getSize())){
+                if (isOnYaxis){
+                    System.out.println("isOnYaxis");
+                    fillBoard(board,ship.getSize(),yCoordinate,xCoordinate,ship.getShipNumber());
+                }
+                else {
+                    System.out.println("!isOnYaxis");
+                    fillBoard(board,ship.getSize(),xCoordinate,yCoordinate,ship.getShipNumber());
+                }
+            }
+            else {
+                return false;
+            }
+        }
+        catch (Exception e){
+            System.out.println("Something went wrong!");
+        }
+        this.board=board;
+        return true;
+    }
+
+    private boolean checkIfSuitable(int[][] board, int y, int x, int size){
+        if (board[y][x]!=0){
+            System.out.println("board["+y+"]["+x+"] is not equal to 0");
+            return false;
+        }
+        return true;
+    }
+    private int[][] fillBoard(int[][] board, int size, int y, int x, int shipNumber){
+        boolean key = true;
+        int loopCounter = 0;
+        while (key){
+            if (loopCounter>=size){
+                key=false;
+            }
+            else {
+                board[y][x] = shipNumber;
+                loopCounter++;
+                x++;
+            }
+        }
+        return board;
     }
 }
