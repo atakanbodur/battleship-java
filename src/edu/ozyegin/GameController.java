@@ -1,5 +1,7 @@
 package edu.ozyegin;
 
+import java.util.Locale;
+
 public class GameController {
     public GameController() {}
     public String shipNumberToString(int x){
@@ -24,7 +26,7 @@ public class GameController {
     }
     public int libAlphabet(String s){
         //I will definitely need this though
-        return switch (s) {
+        return switch (s.toUpperCase()) {
             case "A" -> (1);
             case "B" -> (2);
             case "C" -> (3);
@@ -42,11 +44,11 @@ public class GameController {
         //input is B;2-->y=2, x=2
         String[] inputs = input.split(";");
         try {
-            int yCoordinate = libAlphabet(inputs[0]);
-            int xCoordinate = Integer.parseInt(inputs[1]);
+            int xCoordinate = libAlphabet(inputs[0]);
+            int yCoordinate = Integer.parseInt(inputs[1]);
             int[] coordinates = new int[2];
-            coordinates[0] = yCoordinate;
-            coordinates[1] = xCoordinate;
+            coordinates[0] = xCoordinate;
+            coordinates[1] = yCoordinate;
             return coordinates;
         }
         catch (Exception e){

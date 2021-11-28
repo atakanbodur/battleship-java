@@ -22,20 +22,24 @@ public class Game {
         //was your hit successful? we'll see. I'll also change the value of the section that the opponent shot
         //to 1 regardless.
         int[] coordinates =  gameController.convertInputToArr(coordinate);
-        int yCoordinate=coordinates[0];
-        int xCoordinate=coordinates[1];
-        myBoard.getBoard()[yCoordinate][xCoordinate]=1;
+        int xCoordinate=coordinates[0]-1;
+        int yCoordinate=coordinates[1]-1;
         if (myBoard.getBoard()[yCoordinate][xCoordinate]!=0){
+            myBoard.getBoard()[yCoordinate][xCoordinate]=1;
             return "true";
         }
-        else return "false";
+        else {
+            myBoard.getBoard()[yCoordinate][xCoordinate]=1;
+            return "false";
+        }
+
     }
     public String hit(String coordinate){
         //I'm taking your coordinates and just checking if you shot the same place or not.
         //I'll return false if you have, if not, I'll just send the coordinate back to you.
         int[] coordinates =  gameController.convertInputToArr(coordinate);
-        int yCoordinate=coordinates[0];
-        int xCoordinate=coordinates[1];
+        int xCoordinate=coordinates[0]-1;
+        int yCoordinate=coordinates[1]-1;
         if (opponentBoard.getBoard()[yCoordinate][xCoordinate]!=1){
             return coordinate;
         }
