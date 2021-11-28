@@ -15,6 +15,8 @@ public class Game {
         this.gameController = new GameController();
     }
 
+
+
     public void setPlayer2(String player2) {
         this.player2 = player2;
     }
@@ -43,7 +45,10 @@ public class Game {
         if (opponentBoard.getBoard()[yCoordinate][xCoordinate]!=1){
             return coordinate;
         }
-        else return "false";
+        else {
+            opponentBoard.getBoard()[yCoordinate][xCoordinate]=1;
+            return "false";
+        }
     }
 
 

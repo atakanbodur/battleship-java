@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.security.PublicKey;
 import java.util.Locale;
 
 public class Main {
@@ -168,8 +169,24 @@ public class Main {
                     if (inFromOpponent.readLine().equals("done")) {
                         System.out.println("Game can BEGIN!!!");
                         boolean key = true;
+                        int hits=0;
                         while (!game.getMyBoard().isPlayerLostGame()) {
                             while (key) {
+                                if (hits==2){
+                                    System.out.println("You won the game!");
+                                    game.getMyBoard().setPlayerLostGame(true);
+                                    sentence = "lost";
+                                    outToOpponent.writeBytes(sentence+"\n");
+                                    outToOpponent.flush();
+                                    key=false;
+                                    break;
+                                }
+                                else {
+                                    System.out.println("Game is still going on...\n");
+                                    sentence = "cont";
+                                    outToOpponent.writeBytes(sentence+"\n");
+                                    outToOpponent.flush();
+                                }
                                 System.out.println("It's your turn to make a move. Please enter the coordinate of the place you'd like to hit.\n");
                                 sentence = game.hit(reader.readLine());
                                 if (!sentence.equals("false")) {
@@ -179,6 +196,7 @@ public class Main {
                                     sentence = inFromOpponent.readLine();
                                     key = false;
                                     if (sentence.equals("true")) {
+                                        hits++;
                                         System.out.println("Shot successful!");
                                     } else System.out.println("You couldn't hit it. Sorry mate.");
                                 } else {
@@ -186,6 +204,12 @@ public class Main {
                                 }
                             }
                             while (!key) {
+                                if (inFromOpponent.readLine().equals("lost")){
+                                    System.out.println("You lost the game.");
+                                    game.getMyBoard().setPlayerLostGame(true);
+                                    key=true;
+                                    break;
+                                }
                                 System.out.println("Opponent is taking the shot...\n");
                                 sentence = inFromOpponent.readLine();
                                 if (game.receiveHit(sentence).equals("true")) {
@@ -326,8 +350,24 @@ public class Main {
                     boolean key = false;
                     if (inFromOpponent.readLine().equals("done")) {
                         System.out.println("Game can BEGIN!!!");
+                        int hits=0;
                         while (!game.getMyBoard().isPlayerLostGame()) {
                             while (key) {
+                                if (hits==2){
+                                    System.out.println("You won the game!");
+                                    game.getMyBoard().setPlayerLostGame(true);
+                                    sentence = "lost";
+                                    outToOpponent.writeBytes(sentence+"\n");
+                                    outToOpponent.flush();
+                                    key=false;
+                                    break;
+                                }
+                                else {
+                                    System.out.println("Game is still going on...\n");
+                                    sentence = "cont";
+                                    outToOpponent.writeBytes(sentence+"\n");
+                                    outToOpponent.flush();
+                                }
                                 System.out.println("It's your turn to make a move. Please enter the coordinate of the place you'd like to hit.\n");
                                 sentence = game.hit(reader.readLine());
                                 if (!sentence.equals("false")) {
@@ -337,6 +377,7 @@ public class Main {
                                     sentence = inFromOpponent.readLine();
                                     key = false;
                                     if (sentence.equals("true")) {
+                                        hits++;
                                         System.out.println("Shot successful!");
                                     } else System.out.println("You couldn't hit it. Sorry mate.");
                                 } else {
@@ -344,6 +385,12 @@ public class Main {
                                 }
                             }
                             while (!key) {
+                                if (inFromOpponent.readLine().equals("lost")){
+                                    System.out.println("You lost the game.");
+                                    game.getMyBoard().setPlayerLostGame(true);
+                                    key=true;
+                                    break;
+                                }
                                 System.out.println("Opponent is taking the shot...\n");
                                 sentence = inFromOpponent.readLine();
                                 if (game.receiveHit(sentence).equals("true")) {
@@ -360,6 +407,7 @@ public class Main {
                 }
         }
     }
+
 }
 
 
