@@ -41,4 +41,15 @@ public class Game {
         }
         else return "false";
     }
+
+
+    public Board getMyBoard() {
+        return myBoard;
+    }
+    public Board getOpponentBoard() {
+        return opponentBoard;
+    }
+    public GameController getGameController() {
+        return gameController;
+    }
 }

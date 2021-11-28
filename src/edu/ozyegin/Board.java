@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Board {
     private int[][] board;
     private ArrayList<Ship> myShips;
+    private ArrayList<Integer> registeredShips;
     private boolean allBoatsAreCreated;
     private boolean playerLostGame;
     private String playerUsername;
@@ -27,6 +28,7 @@ public class Board {
         this.myShips.add(battleship);
         this.myShips.add(submarine);
         this.myShips.add(destroyer);
+        this.registeredShips = new ArrayList<>();
     }
 
     private int[][] initBoard(int size){
@@ -61,5 +63,10 @@ public class Board {
     public ArrayList<Ship> getMyShips() {
         return myShips;
     }
-
+    public ArrayList<Integer> getRegisteredShips() {
+        return registeredShips;
+    }
+    public void setAllBoatsAreCreated(boolean allBoatsAreCreated) {
+        this.allBoatsAreCreated = allBoatsAreCreated;
+    }
 }
