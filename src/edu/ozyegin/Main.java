@@ -1,17 +1,26 @@
 package edu.ozyegin;
 
-import javax.xml.stream.FactoryConfigurationError;
+import edu.ozyegin.hostGamePage.HostGamePage;
+import edu.ozyegin.hostPage.HostPage;
+import edu.ozyegin.joinGamePage.JoinGamePage;
+import edu.ozyegin.loginPage.LoginPage;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Locale;
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
+
+        new LoginPage();
+        new HostPage();
+        new HostGamePage();
+        new JoinGamePage();
+
         Game game;
         String ip ;
         int port;
