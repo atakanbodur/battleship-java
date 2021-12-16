@@ -26,7 +26,7 @@ public class Game {
         int[] coordinates =  gameController.convertInputToArr(coordinate);
         int xCoordinate=coordinates[0]-1;
         int yCoordinate=coordinates[1]-1;
-        myBoard.getBoard()[yCoordinate][xCoordinate]=1;
+        //myBoard.getBoard()[yCoordinate][xCoordinate]=1;
         if (myBoard.getBoard()[yCoordinate][xCoordinate]!=0){
             myBoard.getBoard()[yCoordinate][xCoordinate]=1;
             return "true";

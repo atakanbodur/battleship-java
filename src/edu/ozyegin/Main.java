@@ -6,11 +6,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
-import edu.ozyegin.hostPage.HostPage;
-import edu.ozyegin.hostPage.hostGamePage.HostGamePage;
-import edu.ozyegin.hostPage.joinGamePage.JoinGamePage;
-import edu.ozyegin.loginPage.LoginPage;
-
 
 public class Main {
 
@@ -60,12 +55,10 @@ public class Main {
 
                     while (!game.getMyBoard().isAllBoatsAreCreated()) {
                         setupShips(game, reader);
-
                         if (game.getMyBoard().getRegisteredShips().contains(105) && game.getMyBoard().getRegisteredShips().contains(104)
                                 && game.getMyBoard().getRegisteredShips().contains(103) && game.getMyBoard().getRegisteredShips().contains(102)) {
                             game.getMyBoard().setAllBoatsAreCreated(true);
                         }
-
                     }
                     outToOpponent.writeBytes("done\n");
                     outToOpponent.flush();
@@ -153,7 +146,8 @@ public class Main {
                 System.out.println(username+" board:");
                 game.printBoard(game.getMyBoard());
 
-                System.out.println("It's your turn to make a move. Please enter the coordinate of the place you'd like to hit. Coordinates must be entered as B;2, C;9 etc. Split axis with ';'\n");
+                System.out.println("It's your turn to make a move. Please enter the coordinate of the place you'd like to hit." +
+                        " Coordinates must be entered as B;2, C;9 etc. Split axis with ';'\n");
                 sentence = game.hit(reader.readLine());
                 if (!sentence.equals("false")) {
                     outToOpponent.writeBytes(sentence + "\n");
@@ -200,6 +194,7 @@ public class Main {
             case "C":
                 if (game.getMyBoard().getRegisteredShips().contains(105)) {
                     System.out.println("Already placed. Sorry :(");
+                    game.getMyBoard().setAllBoatsAreCreated(true);
                     break;
                 } else {
                     Ship carrier = new Ship("C", 5, 105);
